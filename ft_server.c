@@ -34,7 +34,9 @@ int	main(void)
 {
 	int	serv_pid;
 
+	ft_putstr("server pid : ");
 	serv_pid = getpid();
 	ft_putnbr_fd(serv_pid, 1);
-
+	ft_putstr("\n");
+	return(0);
 }
