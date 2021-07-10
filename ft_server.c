@@ -30,13 +30,42 @@ void	ft_putnbr_fd(int n, int fd)
 		ft_putchar_fd(n + 48, fd);
 }
 
-int	main(void)
+void	receive_bit(int sig)
+{
+	static int	size;
+	static char	to_print;
+
+	to_print += ((sig % 2) << size);
+	size++;
+	if (size == 8)
+	{
+		ft_putchar(to_print);
+		if (!to_print)
+			ft_putchar('\n');
+		to_print = 0;
+		size = 0;
+	}
+}
+
+int	main(int ac, char **av)
 {
 	int	serv_pid;
 
+	(void)av;
+	if (ac != 1)
+	{
+		ft_putstr("No arguments needed.\n");
+		return (1);
+	}
 	ft_putstr("server pid : ");
 	serv_pid = getpid();
 	ft_putnbr_fd(serv_pid, 1);
 	ft_putstr("\n");
+	while (1)
+	{
+		signal(SIGUSR2, receive_bit);
+		signal(SIGUSR1, receive_bit);
+		pause();
+	}
 	return(0);
 }
