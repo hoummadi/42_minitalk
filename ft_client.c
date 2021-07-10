@@ -26,9 +26,9 @@ void	start_send(int pid_serv, char *to_send)
 		while (bit < 8)
 		{
 			if ((to_send[i] >> bit) & 1)
-				kill(pid_serv, SIGUSR1);
-			else
 				kill(pid_serv, SIGUSR2);
+			else
+				kill(pid_serv, SIGUSR1);
 			bit++;
 			usleep(100);
 		}
