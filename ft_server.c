@@ -6,11 +6,11 @@
 /*   By: hhoummad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/09 19:07:24 by hhoummad          #+#    #+#             */
-/*   Updated: 2021/07/09 19:07:26 by hhoummad         ###   ########.fr       */
+/*   Updated: 2021/07/10 10:05:04 by hhoummad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <signal.h>
+#include "minitalk.h"
 
 void	ft_putnbr_fd(int n, int fd)
 {
@@ -39,9 +39,9 @@ void	receive_bit(int sig)
 	size++;
 	if (size == 8)
 	{
-		ft_putchar(to_print);
+		ft_putchar_fd(to_print, 1);
 		if (!to_print)
-			ft_putchar('\n');
+			ft_putchar_fd('\n', 1);
 		to_print = 0;
 		size = 0;
 	}
@@ -54,18 +54,18 @@ int	main(int ac, char **av)
 	(void)av;
 	if (ac != 1)
 	{
-		ft_putstr("No arguments needed.\n");
+		ft_putstr_fd("No arguments needed.\n", 2);
 		return (1);
 	}
-	ft_putstr("server pid : ");
+	ft_putstr_fd("server pid : ", 1);
 	serv_pid = getpid();
 	ft_putnbr_fd(serv_pid, 1);
-	ft_putstr("\n");
+	ft_putstr_fd("\n", 1);
 	while (1)
 	{
 		signal(SIGUSR2, receive_bit);
 		signal(SIGUSR1, receive_bit);
 		pause();
 	}
-	return(0);
+	return (0);
 }
